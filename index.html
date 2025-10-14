@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192.png">
+<meta name="theme-color" content="#0b1a12">
+<title>Ceol Gan Eagla — Together in Tradition</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<!-- Use full ABCJS build for synth playback -->
+<script src="https://cdn.jsdelivr.net/npm/abcjs@6.4.3/dist/abcjs-min.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="logo"><span>CGE</span></div>
+  <div class="brand">
+    <div class="title">Ceol Gan Eagla</div>
+    <div class="subtitle">Together in Tradition · <span id="appVersion">v1</span></div>
+  </div>
+  <nav class="nav">
+    <button class="active" data-target="book">Book</button>
+    <button data-target="library">Library</button>
+    <button data-target="studio">Studio</button>
+    <button data-target="pdfs">PDF</button>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- BOOK VIEW -->
+  <section id="book" class="section active">
+    <div class="grid two">
+      <div class="card">
+        <div class="flip">
+          <div id="pageA" class="page hidden"></div>
+          <div class="page">
+            <h3 id="pageTitle">—</h3>
+            <div class="kicker"><span id="pageType"></span></div>
+            <div id="abcOut" style="min-height:280px"></div>
+            <div id="synthCtrl" class="small" style="margin-top:.5rem"></div>
+            <div class="footer-bar">
+              <div class="controls">
+                <button id="prevBtn" class="btn secondary">◀ Prev</button>
+                <button id="nextBtn" class="btn">Next ▶</button>
+              </div>
+              <div class="controls">
+                <label class="small">Instrument</label>
+                <select id="instrument">
+                  <option value="violin" selected>Fiddle (Violin)</option>
+                  <option value="mandolin">Mandolin</option>
+                  <option value="accordion">Accordion (approx.)</option>
+                </select>
+              </div>
+              <div class="controls">
+                <button id="playBtn" class="btn play">Play ▶</button>
+                <button id="stopBtn" class="btn secondary" disabled>Stop ■</button>
+              </div>
+              <span class="badge" id="pagePos">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row">
+          <label>ABC (read-only for current page)</label>
+          <pre id="abcSource" class="card" style="max-height:220px;overflow:auto;padding:.8rem"></pre>
+        </div>
+        <div class="notice small" style="margin-top:.5rem">
+          Tip: Use <em>Library</em> to open tunes. Use <em>Studio</em> to paste your own ABC and add it to the book.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section id="library" class="section">
+    <div class="card">
+      <div class="controls" style="margin-bottom:.7rem">
+        <input id="search" placeholder="Search tunes (title, type)…" />
+      </div>
+      <div id="libraryList" class="list"></div>
+      <div class="small" style="margin-top:.75rem">
+        • Local library is stored in <code>/data/tunes.json</code>. You can edit that file to add more tunes.
+      </div>
+      <div class="notice small" style="margin-top:.5rem">
+        For web scraping: client-side scraping is often blocked by CORS. Best path is adding a simple server or using pre-curated data. This bundle stays 100% static/HTML so it runs on GitHub Pages.
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="studio" class="section">
+    <div class="grid two">
+      <div class="card">
+        <div class="row two">
+          <div class="row">
+            <label>Title</label>
+            <input id="abcTitle" placeholder="e.g. Morrison’s Jig">
+          </div>
+          <div class="row">
+            <label>Type</label>
+            <input id="abcType" placeholder="e.g. Jig, Reel, Slip Jig">
+          </div>
+        </div>
+        <div class="row" style="margin-top:.5rem">
+          <label>Paste ABC</label>
+          <textarea id="abcInput" rows="8" placeholder="Paste ABC notation here…"></textarea>
+        </div>
+        <div class="controls" style="margin-top:.6rem">
+          <button id="applyAbc" class="btn">Add to Book</button>
+        </div>
+      </div>
+      <div class="card">
+        <label>Live Preview</label>
+        <div id="abcPreview" style="min-height:280px"></div>
+        <div class="small kicker">Rendering uses ABCJS via CDN.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PDF VIEWER -->
+  <section id="pdfs" class="section">
+    <div class="card">
+      <div class="row two">
+        <div class="row">
+          <label>PDF URL</label>
+          <input id="pdfUrl" placeholder="https://example.com/sheet.pdf">
+        </div>
+        <div class="row">
+          <label>&nbsp;</label>
+          <button id="pdfOpen" class="btn">Open PDF</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:.75rem; height:70vh">
+        <iframe id="pdfFrame" title="PDF" style="width:100%;height:100%;border:0;border-radius:12px;background:#0b1a12"></iframe>
+      </div>
+      <div class="small kicker" style="margin-top:.5rem">
+        PDFs must allow cross-origin embedding. If a site blocks embedding, download the file and host it in your repo.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
