@@ -1,0 +1,118 @@
+
+/* Clean modern restyle */
+:root{
+  --bg:#0b0f0d;          /* near-black */
+  --panel:#0f1714;       /* card bg */
+  --ink:#e8f0eb;         /* text */
+  --muted:#a8b6ad;
+  --brand:#1f8a52;       /* emerald */
+  --brand-2:#e5c463;     /* warm gold */
+  --line:#25352c;
+  --danger:#ff6b6b;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg, var(--bg), #080c0a 60%);
+  color:var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+a{color:var(--brand-2); text-decoration:none}
+a:hover{text-decoration:underline}
+
+.wrap{
+  display:grid;
+  grid-template-columns: 260px 1fr;
+  min-height:100vh;
+}
+
+.sidebar{
+  background:linear-gradient(180deg, #0c1411, #0a120f);
+  border-right:1px solid var(--line);
+  padding:1.2rem;
+  position:sticky; top:0; height:100vh;
+}
+.logoRow{display:flex; align-items:center; gap:.75rem; margin-bottom:1rem}
+.logo{
+  width:44px;height:44px;border-radius:12px;
+  background:radial-gradient(circle at 30% 30%, var(--brand-2), var(--brand) 70%);
+  display:grid;place-items:center; font-weight:800; color:#0a120d;
+}
+.appName{display:flex; flex-direction:column}
+.appName .t{font-weight:800; letter-spacing:.2px}
+.appName .s{font-size:.85rem; color:var(--muted)}
+
+.nav{
+  display:grid; gap:.5rem; margin-top:1rem;
+}
+.nav button{
+  text-align:left;
+  background:transparent;
+  border:1px solid transparent;
+  color:var(--ink);
+  padding:.6rem .7rem;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.nav button.active,
+.nav button:hover{
+  background:#0c1713;
+  border-color:var(--line);
+  box-shadow:0 0 0 2px #ffffff10 inset;
+}
+
+.main{
+  padding:1.2rem 1.4rem 2rem;
+}
+.toolbar{
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  margin-bottom:1rem;
+}
+.kicker{color:var(--muted); font-size:.9rem}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:1rem;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+
+.grid{display:grid; gap:1rem}
+@media(min-width:1100px){ .grid.two{grid-template-columns: minmax(420px, 1fr) 1fr } }
+
+.controls{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center}
+input,select,textarea{
+  background:#0b1411; border:1px solid var(--line); color:var(--ink);
+  border-radius:12px; padding:.65rem .8rem;
+}
+button.btn{
+  background:linear-gradient(180deg, #153d26, #0f2d1e);
+  border:1px solid var(--brand);
+  color:var(--ink);
+  padding:.65rem .9rem;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+button.btn.secondary{border-color:var(--line); background:#0c1411}
+button.btn:disabled{opacity:.6; cursor:not-allowed}
+
+.section{display:none}
+.section.active{display:block; animation:fade .2s ease}
+@keyframes fade{from{opacity:.6; transform:translateY(4px)} to{opacity:1; transform:none}}
+
+#abcOut{ min-height:380px } /* larger staff */
+pre{white-space:pre-wrap; background:#0b1411; border:1px solid var(--line); border-radius:12px; padding:.8rem;}
+
+.list{display:grid; gap:.6rem}
+.item{display:flex; justify-content:space-between; align-items:center; gap:.8rem;
+  background:#0b1411; border:1px solid var(--line); border-radius:12px; padding:.65rem .8rem}
+.item .small{color:var(--muted)}
+
+.wave{height:140px; background:#0b1411; border:1px solid var(--line); border-radius:12px}
+
+hr.split{border:0; border-top:1px dashed var(--line); margin:1rem 0}
+.badge{color:var(--brand-2)}
