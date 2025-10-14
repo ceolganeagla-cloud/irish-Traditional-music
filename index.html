@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192.png">
+<meta name="theme-color" content="#0b1a12">
+<title>Ceol Gan Eagla — Together in Tradition</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="assets/vendor/abcjs/abcjs-min.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="logo"><span>CGE</span></div>
+  <div class="brand"><div class="title">Ceol Gan Eagla</div><div class="subtitle">Together in Tradition · <span id="appVersion">v2.0</span></div></div>
+  <nav class="nav">
+    <button class="active" data-target="book">Book</button>
+    <button data-target="library">Library</button>
+    <button data-target="studio">Studio</button>
+    <button data-target="search">Search</button>
+    <button data-target="whistle">Whistle</button>
+    <button data-target="transcribe">Transcribe</button>
+    <button data-target="pdfs">PDF</button>
+  </nav>
+</header>
+
+<main class="container">
+  <section id="book" class="section active">
+    <div class="grid two">
+      <div class="card">
+        <h3 id="pageTitle">—</h3>
+        <div class="small"><span id="pageType"></span> · <span class="badge" id="pagePos">—</span></div>
+        <div id="abcOut" style="min-height:280px"></div>
+        <div id="synthCtrl" class="small" style="margin-top:.5rem"></div>
+        <div class="controls" style="margin-top:.5rem">
+          <button id="prevBtn" class="btn secondary">◀ Prev</button>
+          <select id="instrument"><option value="violin" selected>Fiddle</option><option value="mandolin">Mandolin</option><option value="accordion">Accordion</option></select>
+          <button id="playBtn" class="btn">Play ▶</button>
+          <button id="stopBtn" class="btn secondary" disabled>Stop ■</button>
+          <button id="nextBtn" class="btn">Next ▶</button>
+        </div>
+      </div>
+      <div class="card">
+        <label>ABC (current page)</label>
+        <pre id="abcSource" class="card" style="max-height:240px;overflow:auto;padding:.8rem"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="library" class="section">
+    <div class="card">
+      <div class="controls"><input id="searchLib" placeholder="Find tune in library…"><button id="exportLib" class="btn secondary">Export JSON</button></div>
+      <div id="libraryList" class="list"></div>
+      <hr class="split"><div class="small">Library is read from <code>data/tunes.json</code>. Use Studio to add more during a session.</div>
+    </div>
+  </section>
+
+  <section id="studio" class="section">
+    <div class="grid two">
+      <div class="card">
+        <div class="controls"><input id="abcTitle" placeholder="Title"><input id="abcType" placeholder="Type (Jig/Reel…)"></div>
+        <textarea id="abcInput" rows="8" placeholder="Paste ABC here…"></textarea>
+        <div class="controls" style="margin-top:.5rem"><button id="applyAbc" class="btn">Add to Book</button><input id="abcFile" type="file" accept=".abc,.txt" /><button id="importAbc" class="btn secondary">Import .abc</button></div>
+      </div>
+      <div class="card"><label>Live Preview</label><div id="abcPreview" style="min-height:280px"></div></div>
+    </div>
+  </section>
+
+  <section id="search" class="section">
+    <div class="card">
+      <div class="controls"><input id="q" placeholder="Search title/type/key…"><button id="doSearch" class="btn">Search</button><input id="jsonFile" type="file" accept=".json" /><button id="importJson" class="btn secondary">Import tunes.json</button></div>
+      <div id="searchResults" class="list"></div>
+      <div class="small">Note: scraping external sites is blocked by CORS in static apps. Use imports or paste ABC.</div>
+    </div>
+  </section>
+
+  <section id="whistle" class="section">
+    <div class="grid two">
+      <div class="card">
+        <h3>Whistle-to-Search</h3>
+        <div class="small">Sing/whistle first phrase; we detect pitch sequence and match against your library.</div>
+        <div class="controls" style="margin-top:.5rem"><button id="micStart" class="btn">Start Mic</button><button id="micStop" class="btn secondary" disabled>Stop</button></div>
+        <canvas id="wave" class="wave"></canvas>
+        <div class="small">Detected notes: <span id="detectedNotes">—</span></div>
+      </div>
+      <div class="card">
+        <h3>Matches</h3>
+        <div id="matchList" class="list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="transcribe" class="section">
+    <div class="grid two">
+      <div class="card">
+        <div class="controls"><input id="audioFile" type="file" accept="audio/*"><button id="audioPlay" class="btn" disabled>Play</button><button id="audioPause" class="btn secondary" disabled>Pause</button></div>
+        <div class="controls"><label>Speed</label><input id="rate" type="range" min="0.25" max="1.25" step="0.01" value="1"><label>Pitch (semi)</label><input id="detune" type="range" min="-6" max="6" step="1" value="0"></div>
+        <div class="controls"><label>Loop A</label><input id="loopA" type="number" min="0" value="0"><label>Loop B</label><input id="loopB" type="number" min="0" value="0"><button id="setLoop" class="btn secondary">Set Loop</button><button id="clearLoop" class="btn secondary">Clear Loop</button></div>
+        <canvas id="tsWave" class="wave"></canvas>
+      </div>
+      <div class="card"><h3>Notes</h3><textarea id="tsNotes" rows="12" placeholder="Write bar-by-bar notes, bowing, ornaments…"></textarea></div>
+    </div>
+  </section>
+
+  <section id="pdfs" class="section">
+    <div class="card"><div class="controls"><input id="pdfUrl" placeholder="assets/pdfs/mytune.pdf or https://…"><button id="pdfOpen" class="btn">Open PDF</button></div>
+      <div class="card" style="margin-top:.75rem;height:70vh"><iframe id="pdfFrame" style="width:100%;height:100%;border:0;border-radius:12px;background:#0b1a12"></iframe></div>
+    </div>
+  </section>
+</main>
+<script src="assets/js/app.js"></script>
+</body></html>
