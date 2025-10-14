@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon-192.png" />
+  <title>Ceol Gan Eagla — Irish Music</title>
+
+  <!-- Keep ABCJS available exactly as before -->
+  <script src="https://cdn.jsdelivr.net/npm/abcjs@6.4.3/dist/abcjs-basic-min.js"></script>
+
+  <!-- New: tiny theme stylesheet to enforce the same dark palette everywhere -->
+  <link rel="stylesheet" href="/theme.css" />
+  <style>
+    /* Inline fallbacks so it still looks right if /theme.css isn't served */
+    :root{
+      --bg:#0b1220; --panel:#0f172a; --card:#0c1324;
+      --ink:#eaf2ff; --muted:#a4b0c0; --line:#162036;
+      --brand:#0db66f; --brand-ink:#03150e;
+    }
+    html,body{height:100%;}
+    body{margin:0; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
+    /* Tailwind-style class fallbacks in case Tailwind isn't in the pipeline */
+    .bg-slate-900{background-color:#0b1220 !important;}
+    .text-slate-100{color:#eaf2ff !important;}
+    #root{min-height:100%; display:flex; flex-direction:column;}
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100">
+  <div id="root"></div>
+
+  <!-- Keep your Vite/React entry exactly the same -->
+  <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Keep the same service worker registration logic -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      const base = (window.__vite_plugin__baseUri
+        || document.querySelector('link[rel=manifest]')?.href?.replace(/manifest\.webmanifest.*$/, '')
+        || '/');
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register(base + 'sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
